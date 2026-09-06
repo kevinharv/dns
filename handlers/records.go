@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"fmt"
+
+	"github.com/kevinharv/dns/internal"
 	"github.com/miekg/dns"
 )
 
@@ -24,12 +26,26 @@ func makeRR(name string, value string, rtype string, ttl int) dns.RR {
 func LoadRecords() map[string]dns.RR {
 	records := map[string]dns.RR{}
 	
-	// TODO - open DB connection
+	// // TODO - open DB connection
 
-	// PLACEHOLDER - batch records in from DB
-	for name, rec := range fakeDB {
-		records[name] = rec
-		fmt.Printf("Loaded Record: %s\n", name)
+	// // PLACEHOLDER - batch records in from DB
+	// for name, rec := range fakeDB {
+	// 	records[name] = rec
+	// 	fmt.Printf("Loaded Record: %s\n", name)
+	// }
+
+	recs := []dns.RR{}
+
+	for _, v := range fakeDB {
+		recs = append(recs, v)
+	}
+
+	db, _ := internal.Open()
+	internal.InsertRecords(db, recs)
+	dbList, _ := internal.GetRecords(db)
+
+	for _, r := range dbList {
+		records[r.Header().Name] = r
 	}
 	
 	return records
