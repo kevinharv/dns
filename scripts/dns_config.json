@@ -1,0 +1,13 @@
+{
+    "displayName": "Harvey DNS",
+    "fqdn": "dns.lab.kevharv.com",
+    "port": 8053,
+    "tlsEnabled": false,
+    "tlsCertificatePath": "",
+    "tlsPrivateKey": "",
+    "dnsUpstreamServers": [
+        "1.1.1.1",
+        "8.8.8.8"
+    ],
+    "sqliteDBPath": "./dns.db"
+}

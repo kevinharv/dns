@@ -21,3 +21,14 @@ dig @127.0.0.1 -p 8053 example.local A
 You should see an A record pointing to `127.0.0.1` for `example.local.`
 
 To run on port 53, start the binary as root or with capabilities to bind privileged ports.
+
+## To-Do
+
+- server configuration file in YAML
+    - system name
+    - upstream DNS servers
+    - generally clean up server
+- zone management and authority
+- record CRUD API & harness
+- automatic graceful reloads
+- clustering
