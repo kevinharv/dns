@@ -7,14 +7,15 @@ import (
 )
 
 type DNSServerConfiguration struct {
-	DisplayName        string   `json:"displayName"`
-	FQDN               string   `json:"fqdn"`
-	Port               int      `json:"port"`
-	TLSEnabled         bool     `json:"tlsEnabled"`
-	TLSCertificatePath string   `json:"tlsCertificatePath"`
-	TLSPrivateKeyPath  string   `json:"tlsPrivateKeyPath"`
-	DNSUpstreamServers []string `json:"dnsUpstreamServers"`
-	SQLiteDBPath       string   `json:"sqliteDBPath"`
+	DisplayName        string     `json:"displayName"`
+	FQDN               string     `json:"fqdn"`
+	Port               int        `json:"port"`
+	TLSEnabled         bool       `json:"tlsEnabled"`
+	TLSCertificatePath string     `json:"tlsCertificatePath"`
+	TLSPrivateKeyPath  string     `json:"tlsPrivateKeyPath"`
+	DNSUpstreamServers []string   `json:"dnsUpstreamServers"`
+	SQLiteDBPath       string     `json:"sqliteDBPath"`
+	LogLevel           slog.Level `json:"logLevel"`
 }
 
 func (c *DNSServerConfiguration) LoadFromFile(path string) error {

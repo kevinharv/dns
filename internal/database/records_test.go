@@ -1,4 +1,4 @@
-package postgres
+package database
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 	"github.com/miekg/dns"
 )
 
-func TestDatabaseRoundTrip(t *testing.T) {
+func TestRecordRoundTrip(t *testing.T) {
 	db, err := Open(&config.DNSServerConfiguration{SQLiteDBPath: ":memory:"})
 	if err != nil {
 		t.Fatal(err)

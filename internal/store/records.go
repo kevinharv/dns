@@ -6,7 +6,7 @@ import (
 	"github.com/miekg/dns"
 )
 
-// Store provides lock-free snapshots and atomic replacements of DNS records.
+// Abstraction providing in-memory datastore enabling runtime reload of records
 type Store struct {
 	records atomic.Value
 }

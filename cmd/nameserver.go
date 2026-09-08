@@ -13,19 +13,19 @@ import (
 	"github.com/miekg/dns"
 )
 
-func main() {
-	// Setup logging
-	handler := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug})
-	logger := slog.New(handler)
-	slog.SetDefault(logger)
-	slog.Info("Starting DNS Nameserver")
-
-	// Get configuration from CLI arguments
+func main() {	
+	// Get configuration from file
 	dnsConfig := config.DNSServerConfiguration{}
 	err := dnsConfig.LoadFromFile("scripts/dns_config.json")
 	if err != nil {
 		slog.Error("Configuration load failed", "error", err.Error())
 	}
+
+	// Setup logging
+	handler := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug})
+	logger := slog.New(handler)
+	slog.SetDefault(logger)
+	slog.Info("Starting DNS Nameserver")
 
 	// Load DNS records from database into memory. Pass
 	// to handler function factory.
@@ -38,8 +38,7 @@ func main() {
 	slog.Debug("Loaded records", "count", len(loadedRecords.Snapshot()))
 
 	// Create server and setup handling
-	srv := server.DNSServer{}
-	srv.Setup()
+	srv := server.New(dnsConfig)
 	dns.HandleFunc(".", srv.HandleDNS(loadedRecords))
 
 	// Start UDP listener

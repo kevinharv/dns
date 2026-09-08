@@ -9,5 +9,6 @@
         "1.1.1.1",
         "8.8.8.8"
     ],
-    "sqliteDBPath": "./dns.db"
+    "sqliteDBPath": "./dns.db",
+    "logLevel": "DEBUG"
 }

@@ -1,4 +1,4 @@
-package postgres
+package database
 
 import (
 	"database/sql"
@@ -9,17 +9,10 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-const defaultDBPath = "./dns.db"
-
 // Open initializes the management-plane database. The current implementation
 // uses SQLite; the package boundary allows the backend to change independently.
-func Open(configurations ...*config.DNSServerConfiguration) (*sql.DB, error) {
-	dbPath := defaultDBPath
-	if len(configurations) > 0 && configurations[0] != nil && configurations[0].SQLiteDBPath != "" {
-		dbPath = configurations[0].SQLiteDBPath
-	}
-
-	db, err := sql.Open("sqlite3", dbPath)
+func Open(config *config.DNSServerConfiguration) (*sql.DB, error) {
+	db, err := sql.Open("sqlite3", config.SQLiteDBPath)
 	if err != nil {
 		slog.Error("failed to open database", "error", err.Error())
 		return nil, err

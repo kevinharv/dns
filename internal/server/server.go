@@ -5,6 +5,7 @@ import (
 	"math/rand/v2"
 	"time"
 
+	"github.com/kevinharv/dns/internal/config"
 	"github.com/kevinharv/dns/internal/store"
 	"github.com/miekg/dns"
 )
@@ -14,15 +15,14 @@ type DNSServer struct {
 	upstream []string
 }
 
-func (s *DNSServer) Setup() {
-	s.client = &dns.Client{
-		Net:     "udp",
-		Timeout: 5 * time.Second,
-	}
-	s.upstream = []string{
-		"1.1.1.1:53",
-		"8.8.8.8:53",
-	}
+func New(c config.DNSServerConfiguration) *DNSServer {
+	server := DNSServer{
+		client: &dns.Client{
+			Net:     "udp",
+			Timeout: 5 * time.Second,
+		},
+		upstream: c.DNSUpstreamServers}
+	return &server
 }
 
 func (s *DNSServer) HandleDNS(records *store.Store) func(w dns.ResponseWriter, r *dns.Msg) {
@@ -52,6 +52,7 @@ func (s *DNSServer) HandleDNS(records *store.Store) func(w dns.ResponseWriter, r
 			_ = w.WriteMsg(message)
 			return
 		}
-		_ = w.WriteMsg(response)
+
+		w.WriteMsg(response)
 	}
 }
